@@ -4,7 +4,7 @@ namespace App\Http\Requests\Customer;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CustomerStoreRequest extends FormRequest
+class CustomerUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,11 @@ class CustomerStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->route('id');
         return [
+        
             'name' => 'required|string',
-            'email' => 'required|email|unique:customers,email'
+            'email' => "email|unique:customers,email,{$id}"
         ];
     }
 }

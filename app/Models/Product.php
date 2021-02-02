@@ -2,14 +2,13 @@
 
 namespace App\Models;
 
+use App\Constants\Product\ProductConstants;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
     use HasFactory;
-
-    const PRODUCT_IMAGES_DIR = '/storage/app/public/products/';
 
     protected $fillable = [
         'name',
@@ -21,7 +20,7 @@ class Product extends Model
 
 
     function getImageAttribute($value){
-        $filesDir = self::PRODUCT_IMAGES_DIR;
+        $filesDir = ProductConstants::PRODUCT_IMAGES_DIR;
         $appUrl = env('APP_URL');
         return  "{$appUrl}{$filesDir}{$value}";
     }

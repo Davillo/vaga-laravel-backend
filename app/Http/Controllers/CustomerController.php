@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Customer\CustomerStoreRequest;
+use App\Http\Requests\Customer\CustomerUpdateRequest;
 use App\Repositories\CustomerRepository;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CustomerController extends Controller
@@ -33,9 +34,11 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerStoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $customer = $this->customerRepository->create($data);
+        return response()->json($customer, Response::HTTP_CREATED);
     }
 
     /**
@@ -47,7 +50,7 @@ class CustomerController extends Controller
     public function show(int $id)
     {
         $customer = $this->customerRepository->getById($id);
-        return response()->json($customer);
+        return response()->json($customer, Response::HTTP_OK);
     }
 
     /**
@@ -57,9 +60,11 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(CustomerUpdateRequest $request, int $id)
     {
-        //
+        $data = $request->validated();
+        $customer = $this->customerRepository->update($id, $data);
+        return response()->json($customer, Response::HTTP_OK); 
     }
 
     /**

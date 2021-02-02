@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Constants\Product\ProductConstants;
 use App\Http\Requests\Product\ProductStoreImageRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
@@ -19,7 +20,7 @@ class ProductImageController extends Controller
     }
 
     public function store($id, ProductStoreImageRequest $request){
-        $imageName = $this->storeImage($request->image, Product::PRODUCT_IMAGES_DIR);
+        $imageName = $this->storeImage($request->image, ProductConstants::PRODUCT_IMAGES_DIR);
         $category = $this->productRepository->update($id, ['image' => $imageName]);
         return $category;
     }

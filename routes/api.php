@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\CustomerImageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductImageController;
 
@@ -30,4 +32,13 @@ $router->group(['prefix' => '/categories'], function () use ($router) {
     $router->get('/{id}', [CategoryController::class, 'show']);
     $router->put('/{id}', [CategoryController::class, 'update']);
     $router->delete('/{id}', [CategoryController::class, 'destroy']);
+});
+
+$router->group(['prefix' => '/customers'], function () use ($router) {
+    $router->get('/', [CustomerController::class, 'index']);
+    $router->post('/', [CustomerController::class, 'store']);
+    $router->get('/{id}', [CustomerController::class, 'show']);
+    $router->put('/{id}', [CustomerController::class, 'update']);
+    $router->delete('/{id}', [CustomerController::class, 'destroy']);
+    $router->post('/{id}/image', [CustomerImageController::class, 'store']);
 });
