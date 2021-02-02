@@ -9,10 +9,15 @@ class Product extends Model
 {
     use HasFactory;
 
+    const PRODUCT_IMAGES_DIR = '/storage/app/public/products/';
+
     protected $fillable = [
         'name',
+        'category_id',
         'description',
         'image',
         'price'
     ];
+
+
 }

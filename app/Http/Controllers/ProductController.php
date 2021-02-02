@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\ProductStoreRequest;
 use App\Repositories\ProductRepository;
+use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+
 
 class ProductController extends Controller
 {
@@ -32,9 +35,15 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductStoreRequest $request)
     {
-        //
+        try {
+            $data = $request->validated();
+            $product = $this->productRepository->create($data);
+            return response()->json(['data' => $product], Response::HTTP_CREATED);
+        } catch (QueryException $exception) {
+            return response()->json(['message' => $exception], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**
@@ -45,7 +54,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        //
+        $product = $this->productRepository->getById($id);
+        return response()->json(['data' => $product]);
     }
 
     /**
@@ -55,9 +65,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ProductStoreRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        $product = $this->productRepository->update($id, $data);
+        return response()->json(['data' => $product]);
     }
 
     /**

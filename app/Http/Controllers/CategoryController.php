@@ -37,7 +37,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         $category = $this->categoryRepository->create($data);
-        return response()->json($category, Response::HTTP_CREATED);
+        return response()->json(['data' => $category], Response::HTTP_CREATED);
     }
 
     /**
@@ -49,7 +49,7 @@ class CategoryController extends Controller
     public function show($id)
     {
         $category = $this->categoryRepository->getById($id);
-        return response()->json($category); 
+        return response()->json(['data' => $category]); 
     }
 
     /**
@@ -63,7 +63,7 @@ class CategoryController extends Controller
     {
         $data = $request->validated();
         $category = $this->categoryRepository->update($id, $data);
-        return response()->json($category); 
+        return response()->json(['data' => $category]); 
     }
 
     /**

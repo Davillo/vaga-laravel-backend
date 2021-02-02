@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
-
+use App\Http\Controllers\ProductImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,6 +21,7 @@ $router->group(['prefix' => '/products'], function () use ($router) {
     $router->get('/{id}', [ProductController::class, 'show']);
     $router->put('/{id}', [ProductController::class, 'update']);
     $router->delete('/{id}', [ProductController::class, 'destroy']);
+    $router->post('/{id}/image', [ProductImageController::class, 'store']);
 });
 
 $router->group(['prefix' => '/categories'], function () use ($router) {
