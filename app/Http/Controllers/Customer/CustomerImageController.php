@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Customer;
 
 use App\Constants\Customer\CustomerConstants;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Customer\CustomerStoreImageRequest;
 use App\Repositories\CustomerRepository;
 use App\Traits\ImageTrait;

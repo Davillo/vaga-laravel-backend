@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Product;
 
 use App\Constants\Product\ProductConstants;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\ProductStoreImageRequest;
-use App\Models\Product;
 use App\Repositories\ProductRepository;
 use App\Traits\ImageTrait;
 
