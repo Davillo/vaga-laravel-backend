@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\CustomerRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class CustomerController extends Controller
 {
+
+    private $customerRepository;
+
+    function __construct(CustomerRepository $customerRepository)
+    {
+        $this->customerRepository = $customerRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = $this->customerRepository->paginate(20);
+        return response()->json($customers);
     }
 
     /**
@@ -33,9 +44,10 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
-        //
+        $customer = $this->customerRepository->getById($id);
+        return response()->json($customer);
     }
 
     /**
@@ -45,7 +57,7 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
         //
     }
@@ -56,8 +68,9 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        $this->customerRepository->destroy($id);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

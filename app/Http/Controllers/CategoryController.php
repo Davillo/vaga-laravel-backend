@@ -46,7 +46,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $category = $this->categoryRepository->getById($id);
         return response()->json(['data' => $category]); 
@@ -59,7 +59,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CategoryStoreRequest $request, $id)
+    public function update(CategoryStoreRequest $request, int $id)
     {
         $data = $request->validated();
         $category = $this->categoryRepository->update($id, $data);
@@ -72,7 +72,7 @@ class CategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $this->categoryRepository->destroy($id);
         return response()->json([], Response::HTTP_NO_CONTENT); 

@@ -52,7 +52,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(int $id)
     {
         $product = $this->productRepository->getById($id);
         return response()->json(['data' => $product]);
@@ -65,7 +65,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(ProductStoreRequest $request, $id)
+    public function update(ProductStoreRequest $request, int $id)
     {
         $data = $request->validated();
         $product = $this->productRepository->update($id, $data);
@@ -78,7 +78,7 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $this->productRepository->destroy($id);
         return response()->json([], Response::HTTP_NO_CONTENT);
