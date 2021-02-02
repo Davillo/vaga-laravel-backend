@@ -1,32 +1,37 @@
 <?php
 
+namespace App\Traits;
+
 use Illuminate\Http\UploadedFile;
 use Intervention\Image\Facades\Image;
 
 trait ImageTrait
 {
-    //  $PRODUCT_FILE_DIR = '/storage/app/public/products';
 
     function storeImage(UploadedFile $file, string $path){
-        $imageName = $this->generateFileName();
-        Image::make($file)->encode('jpg', 70)->save($path . $imageName);
+        $imageName = "{$this->generateFileName()}.jpg";
+        $completePath = base_path().$path;
+
+        if(!$this->checkDirectory($completePath)){
+            mkdir($completePath);
+        }
+
+        Image::make($file)->encode('jpg', 70)->save("{$completePath}{$imageName}");
         return $imageName;
     }
 
-    function deleteFile(string $file)
+    private function deleteFile(string $file)
     {
         $file = base_path() . $file;
-        if (file_exists($file)) {
-            unlink($file);
+        if (!file_exists($file)) {
+            return;
         }
+        unlink($file);
     }
 
     private function checkDirectory(string $dir): bool
     {
-        if (file_exists($dir)) {
-            return true;
-        }
-        return false;
+        return file_exists($dir);
     }
 
     private function generateFileName(){

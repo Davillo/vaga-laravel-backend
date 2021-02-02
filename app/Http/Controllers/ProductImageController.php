@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Product\ProductStoreImageRequest;
 use App\Models\Product;
 use App\Repositories\ProductRepository;
-use ImageTrait;
+use App\Traits\ImageTrait;
 
 class ProductImageController extends Controller
 {

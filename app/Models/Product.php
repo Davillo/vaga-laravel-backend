@@ -20,4 +20,9 @@ class Product extends Model
     ];
 
 
+    function getImageAttribute($value){
+        $filesDir = self::PRODUCT_IMAGES_DIR;
+        $appUrl = env('APP_URL');
+        return  "{$appUrl}{$filesDir}{$value}";
+    }
 }
