@@ -2,10 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class ProductController extends Controller
 {
+    private $productRepository;
+
+    function __construct(ProductRepository $productRepository)
+    {
+        $this->productRepository = $productRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,17 +22,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $products = $this->productRepository->paginate(20);
+        return response()->json($products);
     }
 
     /**
@@ -49,17 +49,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -79,6 +68,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->productRepository->destroy($id);
+        return response()->json([], Response::HTTP_NO_CONTENT);
     }
 }

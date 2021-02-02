@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+$router->group(['prefix' => '/products'], function () use ($router) {
+    $router->get('/', [ProductController::class, 'index']);
+    $router->post('/', [ProductController::class, 'store']);
+    $router->get('/{id}', [ProductController::class, 'show']);
+    $router->put('/{id}', [ProductController::class, 'update']);
+    $router->delete('/{id}', [ProductController::class, 'destroy']);
+});
+
+$router->group(['prefix' => '/categories'], function () use ($router) {
+    $router->get('/', [CategoryController::class, 'index']);
+    $router->post('/', [CategoryController::class, 'store']);
+    $router->get('/{id}', [CategoryController::class, 'show']);
+    $router->put('/{id}', [CategoryController::class, 'update']);
+    $router->delete('/{id}', [CategoryController::class, 'destroy']);
 });
