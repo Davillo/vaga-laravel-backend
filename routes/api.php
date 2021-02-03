@@ -3,6 +3,7 @@
 use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Customer\CustomerImageController;
+use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductImageController;
 
@@ -40,4 +41,17 @@ $router->group(['prefix' => '/customers'], function () use ($router) {
     $router->put('/{id}', [CustomerController::class, 'update']);
     $router->delete('/{id}', [CustomerController::class, 'destroy']);
     $router->post('/{id}/image', [CustomerImageController::class, 'store']);
+});
+
+$router->group(['prefix' => '/orders'], function () use ($router) {
+    $router->get('/', [OrderController::class, 'index']);
+    $router->post('/', [OrderController::class, 'store']);
+    $router->get('/{id}', [OrderController::class, 'show']);
+    $router->patch('/{id}', [OrderController::class, 'update']);
+    $router->delete('/{id}', [OrderController::class, 'destroy']);
+
+    // $router->post('/{id}/items', [OrderItemController::class, 'store']);
+    // $router->get('/{id}/items', [OrderItemController::class, 'show']);
+    // $router->patch('/{id}/items', [OrderItemController::class, 'update']);
+    // $router->delete('/{id}/items', [OrderItemController::class, 'destroy']);
 });
