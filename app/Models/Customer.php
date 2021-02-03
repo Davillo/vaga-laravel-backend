@@ -17,8 +17,12 @@ class Customer extends Model
     ];
 
     function getImageAttribute($value){
-        $filesDir = CustomerConstants::CUSTOMER_IMAGES_DIR;
-        $appUrl = env('APP_URL');
-        return  "{$appUrl}{$filesDir}{$value}";
+        $filesDir = CustomerConstants::CUSTOMER_IMAGES_DIR_LINK;
+
+        if(!$value){
+            return '';
+        }
+
+        return url("$filesDir/{$value}");
     }
 }

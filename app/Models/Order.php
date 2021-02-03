@@ -11,6 +11,19 @@ class Order extends Model
 
     protected $fillable = [
         'customer_id',
+        'status',
         'total'
     ];
+
+    protected $appends = [
+        'customer'
+    ];
+
+    protected $hidden = [
+        'customer_id'
+    ];
+
+    public function getCustomerAttribute(){
+        return Customer::find($this->attributes['customer_id'])->first();
+    }
 }

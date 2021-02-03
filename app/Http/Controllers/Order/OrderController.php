@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Order;
 
+use App\Constants\Order\OrderConstants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\OrderStoreRequest;
+use App\Http\Requests\Order\OrderUpateRequest;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -37,6 +39,7 @@ class OrderController extends Controller
     public function store(OrderStoreRequest $request)
     {
         $data = $request->validated();
+        $data['status'] = OrderConstants::ORDER_STATUS_OPENED;
         $order = $this->orderRepository->create($data);
         return response()->json(['data' => $order], Response::HTTP_CREATED);
     }
@@ -60,7 +63,7 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, int $id)
+    public function update(OrderUpateRequest $request, int $id)
     {
         $data = $request->validated();
         $order = $this->orderRepository->update($id, $data);

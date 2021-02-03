@@ -18,10 +18,25 @@ class Product extends Model
         'price'
     ];
 
+    protected $appends = [
+        'category'
+    ];
+
+    protected $hidden = [
+        'category_id'
+    ];
+
+    function getCategoryAttribute(){
+        return Category::find($this->attributes['category_id'])->first();
+    }
 
     function getImageAttribute($value){
-        $filesDir = ProductConstants::PRODUCT_IMAGES_DIR;
-        $appUrl = env('APP_URL');
-        return  "{$appUrl}{$filesDir}{$value}";
+        $filesDir = ProductConstants::PRODUCT_IMAGES_DIR_LINK;
+
+        if(!$value){
+            return '';
+        }
+
+        return url("$filesDir/{$value}");
     }
 }

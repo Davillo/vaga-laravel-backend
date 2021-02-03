@@ -14,4 +14,14 @@ class OrderItem extends Model
         'product_id',
         'quantity'
     ];
+
+
+    protected $hidden = [
+        'product_id',
+        'order_id'
+    ];
+
+    function getProductAttribute(){
+        return Product::find($this->attributes['product_id'])->first();
+    }
 }

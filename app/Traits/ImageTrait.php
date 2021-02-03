@@ -10,13 +10,13 @@ trait ImageTrait
 
     function storeImage(UploadedFile $file, string $path){
         $imageName = "{$this->generateFileName()}.jpg";
-        $completePath = base_path().$path;
+        $completePath = base_path() . "/".$path;
 
         if(!$this->checkDirectory($completePath)){
             mkdir($completePath);
         }
 
-        Image::make($file)->encode('jpg', 70)->save("{$completePath}{$imageName}");
+        Image::make($file)->encode('jpg', 70)->save("{$completePath}/{$imageName}");
         return $imageName;
     }
 

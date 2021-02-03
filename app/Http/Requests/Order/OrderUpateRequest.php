@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Order;
 
+use App\Constants\Order\OrderConstants;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class CategoryStoreRequest extends FormRequest
+class OrderUpateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +26,10 @@ class CategoryStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string'
+            'status' => [
+                'required',
+                Rule::in([OrderConstants::ORDER_STATUS_OPENED, OrderConstants::ORDER_STATUS_CHECKOUT]),
+            ],
         ];
     }
-
 }
