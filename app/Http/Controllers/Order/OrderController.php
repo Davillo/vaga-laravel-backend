@@ -38,7 +38,7 @@ class OrderController extends Controller
     {
         $data = $request->validated();
         $order = $this->orderRepository->create($data);
-        return response()->json($order, Response::HTTP_CREATED);
+        return response()->json(['data' => $order], Response::HTTP_CREATED);
     }
 
     /**
@@ -49,8 +49,8 @@ class OrderController extends Controller
      */
     public function show(int $id)
     {
-        $customer = $this->orderRepository->getById($id);
-        return response()->json($customer, Response::HTTP_OK);
+        $order = $this->orderRepository->getById($id);
+        return response()->json(['data' => $order], Response::HTTP_OK);
     }
 
     /**
@@ -63,8 +63,8 @@ class OrderController extends Controller
     public function update(Request $request, int $id)
     {
         $data = $request->validated();
-        $customer = $this->orderRepository->update($id, $data);
-        return response()->json($customer, Response::HTTP_OK); 
+        $order = $this->orderRepository->update($id, $data);
+        return response()->json($order, Response::HTTP_OK); 
     }
 
     /**

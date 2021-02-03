@@ -50,8 +50,8 @@ $router->group(['prefix' => '/orders'], function () use ($router) {
     $router->patch('/{id}', [OrderController::class, 'update']);
     $router->delete('/{id}', [OrderController::class, 'destroy']);
 
-    // $router->post('/{id}/items', [OrderItemController::class, 'store']);
-    // $router->get('/{id}/items', [OrderItemController::class, 'show']);
-    // $router->patch('/{id}/items', [OrderItemController::class, 'update']);
-    // $router->delete('/{id}/items', [OrderItemController::class, 'destroy']);
+    $router->post('/{id}/items', [OrderItemController::class, 'store']);
+    $router->get('/{id}/items/{itemId}', [OrderItemController::class, 'show']);
+    $router->patch('/{id}/items/{itemId}', [OrderItemController::class, 'update']);
+    $router->delete('/{id}/items/{itemId}', [OrderItemController::class, 'destroy']);
 });
