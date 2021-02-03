@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\CustomerImageController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProductImageController;
+use App\Http\Controllers\Category\CategoryController;
+use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Customer\CustomerImageController;
+use App\Http\Controllers\Product\ProductController;
+use App\Http\Controllers\Product\ProductImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,7 +16,6 @@ use App\Http\Controllers\ProductImageController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 $router->group(['prefix' => '/products'], function () use ($router) {
     $router->get('/', [ProductController::class, 'index']);
     $router->post('/', [ProductController::class, 'store']);

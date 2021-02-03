@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 interface BaseRepositoryInterface{
 
-    public function __call($name, $args): void;
+    public function __call($name, $args);
 
     public function getById(int $id): ?Model;
 
