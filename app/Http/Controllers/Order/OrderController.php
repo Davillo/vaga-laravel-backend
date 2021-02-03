@@ -6,17 +6,27 @@ use App\Constants\Order\OrderConstants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\OrderStoreRequest;
 use App\Http\Requests\Order\OrderUpateRequest;
+use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class OrderController extends Controller
 {
+    /**
+      type OrderRepository
+    **/
     private $orderRepository;
 
-    function __construct(OrderRepository $orderRepository)
+    /**
+      type OrderItemRepository
+    **/
+    private $orderItemRepository;
+
+    function __construct(OrderRepository $orderRepository, OrderItemRepository $orderItemRepository)
     {
-        $this->orderRepository= $orderRepository;
+        $this->orderRepository = $orderRepository;
+        $this->orderItemRepository = $orderItemRepository;
     }
 
      /**
@@ -66,7 +76,19 @@ class OrderController extends Controller
     public function update(OrderUpateRequest $request, int $id)
     {
         $data = $request->validated();
-        $order = $this->orderRepository->update($id, $data);
+        $order = $this->orderRepository->getById($id);
+        $orderHasItem = $this->orderItemRepository->where('order_id', $order->id)->first();
+
+        if(!$orderHasItem){
+            return response()->json(['message' => 'The order has no items yet.'], Response::HTTP_BAD_REQUEST); 
+        }
+
+        if($order->status === OrderConstants::ORDER_STATUS_CHECKOUT){
+            return response()->json(['message' => 'The  order is already on checkout.'], Response::HTTP_BAD_REQUEST); 
+        }
+
+        $order->update($data);
+        $order->refresh();
         return response()->json($order, Response::HTTP_OK); 
     }
 

@@ -28,7 +28,7 @@ class OrderUpateRequest extends FormRequest
         return [
             'status' => [
                 'required',
-                Rule::in([OrderConstants::ORDER_STATUS_OPENED, OrderConstants::ORDER_STATUS_CHECKOUT]),
+                Rule::in([OrderConstants::ORDER_STATUS_CHECKOUT]),
             ],
         ];
     }

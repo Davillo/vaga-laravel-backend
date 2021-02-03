@@ -4,6 +4,7 @@ use App\Http\Controllers\Category\CategoryController;
 use App\Http\Controllers\Customer\CustomerController;
 use App\Http\Controllers\Customer\CustomerImageController;
 use App\Http\Controllers\Order\OrderController;
+use App\Http\Controllers\Order\OrderItemController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductImageController;
 
@@ -53,6 +54,6 @@ $router->group(['prefix' => '/orders'], function () use ($router) {
     $router->get('/{id}/items', [OrderItemController::class, 'index']);
     $router->post('/{id}/items', [OrderItemController::class, 'store']);
     $router->get('/{id}/items/{itemId}', [OrderItemController::class, 'show']);
-    $router->patch('/{id}/items/{itemId}', [OrderItemController::class, 'update']);
+    $router->put('/{id}/items/{itemId}', [OrderItemController::class, 'update']);
     $router->delete('/{id}/items/{itemId}', [OrderItemController::class, 'destroy']);
 });

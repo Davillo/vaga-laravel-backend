@@ -74,9 +74,7 @@ class OrderItemController extends Controller
 
         $orderItem = $this->orderItemRepository->where('order_id', $id)->where('id', $itemId)->first();
 
-        $orderItem->update([
-            'quantity' => $data['quantity']
-        ]);
+        $orderItem->update($data);
 
         return response()->json(['data' => $orderItem]);
     }

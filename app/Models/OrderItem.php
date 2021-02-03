@@ -15,6 +15,9 @@ class OrderItem extends Model
         'quantity'
     ];
 
+    protected $appends = [
+        'product'
+    ];
 
     protected $hidden = [
         'product_id',
