@@ -22,7 +22,7 @@ class OrderItemController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index(int $id)
     {
        $items = $this->orderItemRepository->where('order_id', $id)->get();
        return response()->json($items);
@@ -68,7 +68,7 @@ class OrderItemController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(OrderItemStoreRequest $request, $id, $itemId)
+    public function update(OrderItemStoreRequest $request, int $id, int $itemId)
     {
         $data = $request->validated();
 
@@ -89,7 +89,7 @@ class OrderItemController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $itemId)
+    public function destroy(int $id, int $itemId)
     {        
         $this->orderItemRepository->where('order_id', $id)->where('id', $itemId)->delete();
         return response()->json([], Response::HTTP_NO_CONTENT);
