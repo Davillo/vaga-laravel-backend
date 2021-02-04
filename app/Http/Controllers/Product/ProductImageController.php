@@ -19,7 +19,7 @@ class ProductImageController extends Controller
         $this->productRepository = $productRepository;
     }
 
-    public function store($id, ProductStoreImageRequest $request){
+    public function update($id, ProductStoreImageRequest $request){
         $imageName = $this->storeImage($request->image, ProductConstants::PRODUCT_IMAGES_DIR);
         $category = $this->productRepository->update($id, ['image' => $imageName]);
         return $category;

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use UserConstants;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -20,7 +21,18 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
+        'image'
     ];
+
+    function getImageAttribute($value){
+        $filesDir = UserConstants::USER_IMAGES_DIR_LINK;
+
+        if(!$value){
+            return '';
+        }
+
+        return url("$filesDir/{$value}");
+    }
 
     /**
      * The attributes that should be hidden for arrays.

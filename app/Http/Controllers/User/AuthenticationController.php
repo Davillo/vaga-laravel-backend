@@ -12,11 +12,6 @@ class AuthenticationController extends Controller
 {
     use AuthTrait;
 
-    public function __construct()
-    {
-        $this->middleware('auth.api', ['except' => ['store']]);
-    }
-
     /**
      * Get a JWT via given credentials.
      *

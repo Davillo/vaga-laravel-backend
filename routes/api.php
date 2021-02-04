@@ -9,6 +9,7 @@ use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductImageController;
 use App\Http\Controllers\User\AuthenticatedUserController;
 use App\Http\Controllers\User\AuthenticationController;
+use App\Http\Controllers\User\UserImageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,7 @@ $router->group([
     $router->get('/logout', [AuthenticatedUserController::class, 'destroy']);
     $router->put('/refresh', [AuthenticatedUserController::class, 'update']);
     $router->get('/me', [AuthenticatedUserController::class, 'show']);
+    $router->post('/image', [UserImageController::class, 'update']);
 });
 
 $router->group([
@@ -40,7 +42,7 @@ $router->group([
     $router->get('/{id}', [ProductController::class, 'show']);
     $router->put('/{id}', [ProductController::class, 'update']);
     $router->delete('/{id}', [ProductController::class, 'destroy']);
-    $router->post('/{id}/image', [ProductImageController::class, 'store']);
+    $router->post('/{id}/image', [ProductImageController::class, 'update']);
 });
 
 $router->group([
@@ -63,7 +65,7 @@ $router->group([
     $router->get('/{id}', [CustomerController::class, 'show']);
     $router->put('/{id}', [CustomerController::class, 'update']);
     $router->delete('/{id}', [CustomerController::class, 'destroy']);
-    $router->post('/{id}/image', [CustomerImageController::class, 'store']);
+    $router->post('/{id}/image', [CustomerImageController::class, 'update']);
 });
 
 $router->group([

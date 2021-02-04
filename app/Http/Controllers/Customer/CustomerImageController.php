@@ -19,7 +19,7 @@ class CustomerImageController extends Controller
         $this->customerRepository = $customerRepository;
     }
 
-    function store(CustomerStoreImageRequest $request, int $id){
+    function update(CustomerStoreImageRequest $request, int $id){
         $imageName = $this->storeImage($request->image, CustomerConstants::CUSTOMER_IMAGES_DIR);
         $customer = $this->customerRepository->update($id, ['image' => $imageName]);
         return $customer;
