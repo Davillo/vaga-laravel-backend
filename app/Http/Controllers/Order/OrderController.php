@@ -100,6 +100,12 @@ class OrderController extends Controller
      */
     public function destroy(int $id)
     {
+        $orderHasItem = $this->orderItemRepository->where('order_id', $id)->first();
+
+        if($orderHasItem){
+            return response()->json(['message' => 'The order items cannot be destroyed.'], Response::HTTP_BAD_REQUEST); 
+        }
+
         $this->orderRepository->destroy($id);
         return response()->json([], Response::HTTP_NO_CONTENT);
     }

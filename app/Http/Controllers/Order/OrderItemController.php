@@ -54,7 +54,7 @@ class OrderItemController extends Controller
             return response()->json(['message' => 'Order not found'], Response::HTTP_NOT_FOUND);
         }
 
-        if($order === OrderConstants::ORDER_STATUS_CHECKOUT){
+        if($order->status === OrderConstants::ORDER_STATUS_CHECKOUT){
             return response()->json(['message' => 'The order are already on checkout status'], Response::HTTP_BAD_REQUEST);
         }
 
