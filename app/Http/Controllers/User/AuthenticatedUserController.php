@@ -16,7 +16,7 @@ class AuthenticatedUserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth.api');
     }
 
     /**
@@ -45,8 +45,13 @@ class AuthenticatedUserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function refresh()
+    public function update()
     {
-        return auth('api')->refresh();
+        $token = auth('api')->refresh();
+
+        return response()->json([
+            'access_token' => $token,
+            'type' => 'bearer'
+        ]);
     }
 }

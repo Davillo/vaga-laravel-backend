@@ -20,19 +20,21 @@ use App\Http\Controllers\User\AuthenticationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::post('/auth/login', [AuthenticationController::class, 'store']);
 
-Route::group([
-    'middleware' => 'api',
+$router->group([
+    'middleware' => 'auth.api',
     'prefix' => '/auth'
 ], function ($router) {
-
-    $router->post('/login', [AuthenticationController::class, 'store']);
     $router->get('/logout', [AuthenticatedUserController::class, 'destroy']);
     $router->put('/refresh', [AuthenticatedUserController::class, 'update']);
     $router->get('/me', [AuthenticatedUserController::class, 'show']);
 });
 
-$router->group(['prefix' => '/products'], function () use ($router) {
+$router->group([
+    'middleware' => 'auth.api',
+    'prefix' => '/products'
+], function () use ($router) {
     $router->get('/', [ProductController::class, 'index']);
     $router->post('/', [ProductController::class, 'store']);
     $router->get('/{id}', [ProductController::class, 'show']);
@@ -41,7 +43,10 @@ $router->group(['prefix' => '/products'], function () use ($router) {
     $router->post('/{id}/image', [ProductImageController::class, 'store']);
 });
 
-$router->group(['prefix' => '/categories'], function () use ($router) {
+$router->group([
+    'middleware' => 'auth.api',
+    'prefix' => '/categories'
+], function () use ($router) {
     $router->get('/', [CategoryController::class, 'index']);
     $router->post('/', [CategoryController::class, 'store']);
     $router->get('/{id}', [CategoryController::class, 'show']);
@@ -49,7 +54,10 @@ $router->group(['prefix' => '/categories'], function () use ($router) {
     $router->delete('/{id}', [CategoryController::class, 'destroy']);
 });
 
-$router->group(['prefix' => '/customers'], function () use ($router) {
+$router->group([
+    'middleware' => 'auth.api',
+    'prefix' => '/customers'
+], function () use ($router) {
     $router->get('/', [CustomerController::class, 'index']);
     $router->post('/', [CustomerController::class, 'store']);
     $router->get('/{id}', [CustomerController::class, 'show']);
@@ -58,7 +66,10 @@ $router->group(['prefix' => '/customers'], function () use ($router) {
     $router->post('/{id}/image', [CustomerImageController::class, 'store']);
 });
 
-$router->group(['prefix' => '/orders'], function () use ($router) {
+$router->group([
+    'middleware' => 'auth.api',
+    'prefix' => '/orders'
+], function () use ($router) {
     $router->get('/', [OrderController::class, 'index']);
     $router->post('/', [OrderController::class, 'store']);
     $router->get('/{id}', [OrderController::class, 'show']);
