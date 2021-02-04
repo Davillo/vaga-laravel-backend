@@ -39,7 +39,7 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         $customer = $this->customerRepository->create($data);
-        return response()->json($customer, Response::HTTP_CREATED);
+        return response()->json(['data' => $customer], Response::HTTP_CREATED);
     }
 
     /**
@@ -51,7 +51,7 @@ class CustomerController extends Controller
     public function show(int $id)
     {
         $customer = $this->customerRepository->getById($id);
-        return response()->json($customer, Response::HTTP_OK);
+        return response()->json(['data' => $customer], Response::HTTP_OK); 
     }
 
     /**
@@ -65,7 +65,7 @@ class CustomerController extends Controller
     {
         $data = $request->validated();
         $customer = $this->customerRepository->update($id, $data);
-        return response()->json($customer, Response::HTTP_OK); 
+        return response()->json(['data' => $customer], Response::HTTP_OK); 
     }
 
     /**

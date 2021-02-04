@@ -21,8 +21,8 @@ class ProductImageController extends Controller
 
     public function update($id, ProductStoreImageRequest $request){
         $imageName = $this->storeImage($request->image, ProductConstants::PRODUCT_IMAGES_DIR);
-        $category = $this->productRepository->update($id, ['image' => $imageName]);
-        return $category;
+        $product = $this->productRepository->update($id, ['image' => $imageName]);
+        return response()->json(['data' => $product]);
     }
 
 }

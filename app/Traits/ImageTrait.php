@@ -10,7 +10,7 @@ trait ImageTrait
 
     function storeImage(UploadedFile $file, string $path){
         $imageName = "{$this->generateFileName()}.jpg";
-        $completePath = base_path() . "/".$path;
+        $completePath = base_path() . $path;
 
         if(!$this->checkDirectory($completePath)){
             mkdir($completePath);

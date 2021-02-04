@@ -27,9 +27,9 @@ $router->group([
     'middleware' => 'auth.api',
     'prefix' => '/auth'
 ], function ($router) {
-    $router->get('/logout', [AuthenticatedUserController::class, 'destroy']);
-    $router->put('/refresh', [AuthenticatedUserController::class, 'update']);
     $router->get('/me', [AuthenticatedUserController::class, 'show']);
+    $router->put('/refresh', [AuthenticatedUserController::class, 'update']);
+    $router->get('/logout', [AuthenticatedUserController::class, 'destroy']);
     $router->post('/image', [UserImageController::class, 'update']);
 });
 

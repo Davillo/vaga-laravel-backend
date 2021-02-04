@@ -89,7 +89,7 @@ class OrderController extends Controller
 
         $order->update($data);
         $order->refresh();
-        return response()->json($order, Response::HTTP_OK); 
+        return response()->json(['data' => $order], Response::HTTP_OK); 
     }
 
     /**
