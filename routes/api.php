@@ -7,6 +7,8 @@ use App\Http\Controllers\Order\OrderController;
 use App\Http\Controllers\Order\OrderItemController;
 use App\Http\Controllers\Product\ProductController;
 use App\Http\Controllers\Product\ProductImageController;
+use App\Http\Controllers\User\AuthenticatedUserController;
+use App\Http\Controllers\User\AuthenticationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +20,18 @@ use App\Http\Controllers\Product\ProductImageController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => '/auth'
+], function ($router) {
+
+    $router->post('/login', [AuthenticationController::class, 'store']);
+    $router->get('/logout', [AuthenticatedUserController::class, 'destroy']);
+    $router->put('/refresh', [AuthenticatedUserController::class, 'update']);
+    $router->get('/me', [AuthenticatedUserController::class, 'show']);
+});
+
 $router->group(['prefix' => '/products'], function () use ($router) {
     $router->get('/', [ProductController::class, 'index']);
     $router->post('/', [ProductController::class, 'store']);
