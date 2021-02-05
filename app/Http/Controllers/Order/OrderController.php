@@ -6,6 +6,8 @@ use App\Constants\Order\OrderConstants;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Order\OrderStoreRequest;
 use App\Http\Requests\Order\OrderUpateRequest;
+use App\Notifications\OrderCheckoutMailNotification;
+use App\Repositories\CustomerRepository;
 use App\Repositories\OrderItemRepository;
 use App\Repositories\OrderRepository;
 use Illuminate\Http\Request;
@@ -23,10 +25,16 @@ class OrderController extends Controller
     **/
     private $orderItemRepository;
 
-    function __construct(OrderRepository $orderRepository, OrderItemRepository $orderItemRepository)
+    /**
+      type CustomerRepository
+    **/
+    private $customerRepository;
+
+    function __construct(OrderRepository $orderRepository, OrderItemRepository $orderItemRepository, CustomerRepository $customerRepository)
     {
         $this->orderRepository = $orderRepository;
         $this->orderItemRepository = $orderItemRepository;
+        $this->customerRepository = $customerRepository;
     }
 
      /**
@@ -75,21 +83,30 @@ class OrderController extends Controller
      */
     public function update(OrderUpateRequest $request, int $id)
     {
-        $data = $request->validated();
-        $order = $this->orderRepository->getById($id);
-        $orderHasItem = $this->orderItemRepository->where('order_id', $order->id)->first();
+        try {
+            $data = $request->validated();
+            $order = $this->orderRepository->getById($id);
+            $orderHasItem = $this->orderItemRepository->where('order_id', $order->id)->first();
 
-        if(!$orderHasItem){
-            return response()->json(['message' => 'The order has no items yet.'], Response::HTTP_BAD_REQUEST); 
+            if(!$orderHasItem){
+                return response()->json(['message' => 'The order has no items yet.'], Response::HTTP_BAD_REQUEST); 
+            }
+
+            if($order->status === OrderConstants::ORDER_STATUS_CHECKOUT){
+                return response()->json(['message' => 'The  order is already on checkout.'], Response::HTTP_BAD_REQUEST); 
+            }
+
+            $order->update($data);
+            $order->refresh();
+
+            $customer = $this->customerRepository->find($order->customer_id);
+            $customer->notify(new OrderCheckoutMailNotification($customer));
+            
+            return response()->json(['data' => $order], Response::HTTP_OK); 
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        if($order->status === OrderConstants::ORDER_STATUS_CHECKOUT){
-            return response()->json(['message' => 'The  order is already on checkout.'], Response::HTTP_BAD_REQUEST); 
-        }
-
-        $order->update($data);
-        $order->refresh();
-        return response()->json(['data' => $order], Response::HTTP_OK); 
+        
     }
 
     /**
@@ -103,7 +120,7 @@ class OrderController extends Controller
         $orderHasItem = $this->orderItemRepository->where('order_id', $id)->first();
 
         if($orderHasItem){
-            return response()->json(['message' => 'The order items cannot be destroyed.'], Response::HTTP_BAD_REQUEST); 
+            return response()->json(['message' => 'The order has items and cannot be destroyed.'], Response::HTTP_BAD_REQUEST); 
         }
 
         $this->orderRepository->destroy($id);
